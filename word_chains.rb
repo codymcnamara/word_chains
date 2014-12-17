@@ -38,7 +38,7 @@ class WordChainer
     @all_seen_words[source] = nil
 
     explore_current_words until @current_words.empty?
-    #p @all_seen_words
+    build_path(target)
   end
 
   def explore_current_words
@@ -61,8 +61,24 @@ class WordChainer
     @current_words = new_current_words
   end
 
+  def build_path(target)
+    path = [target]
+    parent = ""
+
+    if @all_seen_words[target] == nil
+      puts "no connection!"
+    else
+      while true
+        parent = @all_seen_words[path.last]
+        parent.nil? ? break : path << parent
+      end
+    end
+
+    path.reverse
+  end
+
 end
 
 
 werd = WordChainer.new('dictionary.txt')
-werd.run("market", "flavor")
+p werd.run("hello", "funny")
