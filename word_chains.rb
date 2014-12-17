@@ -12,6 +12,7 @@ class WordChainer
     end
     @dictionary_set = Set.new(@dictionary)
     @current_words = []
+    @all_seen_words =[]
 
   end
 
@@ -36,25 +37,29 @@ class WordChainer
     @current_words = [source]
     @all_seen_words = [source]
 
-    until @current_words.empty?
-      new_current_words = []
-      @current_words.each do |current_word|
-        adjacent_words(current_word).each do |adj_word|
-          if @all_seen_words.include?(adj_word)
-            next
-          else
-            new_current_words << adj_word
-            @all_seen_words << adj_word
-          end
+    explore_current_words until @current_words.empty?
+  end
+
+  def explore_current_words
+    new_current_words = []
+
+    @current_words.each do |current_word|
+      adjacent_words(current_word).each do |adj_word|
+        if @all_seen_words.include?(adj_word)
+          next
+        else
+          new_current_words << adj_word
+          @all_seen_words << adj_word
         end
       end
-      p new_current_words.sort
-      @current_words = new_current_words
     end
+
+    p new_current_words
+    @current_words = new_current_words
   end
+
 end
 
 
 werd = WordChainer.new('dictionary.txt')
-# werd.dict
 werd.run("wonder", "flavor")
