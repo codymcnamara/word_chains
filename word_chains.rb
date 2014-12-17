@@ -36,9 +36,10 @@ class WordChainer
   def run(source, target)
     @current_words = [source]
     @all_seen_words[source] = nil
+    @souce = source
 
     explore_current_words until @current_words.empty?
-    build_path(target)
+    (build_path(target))[1..-1]
   end
 
   def explore_current_words
@@ -55,27 +56,15 @@ class WordChainer
       end
     end
 
-    # new_current_words.each do |current|
-    #   puts "#current word: #{current} came from the parent: #{@all_seen_words[current]}"
-    # end
     @current_words = new_current_words
   end
 
   def build_path(target)
-    path = [target]
-    parent = ""
+    return [target] if target == nil
 
-    if @all_seen_words[target] == nil
-      puts "no connection!"
-    else
-      while true
-        parent = @all_seen_words[path.last]
-        parent.nil? ? break : path << parent
-      end
-    end
-
-    path.reverse
+    build_path(@all_seen_words[target]) + [target]
   end
+
 
 end
 
