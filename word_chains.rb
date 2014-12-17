@@ -12,7 +12,7 @@ class WordChainer
     end
     @dictionary_set = Set.new(@dictionary)
     @current_words = []
-    @all_seen_words =[]
+    @all_seen_words ={}
 
   end
 
@@ -35,9 +35,10 @@ class WordChainer
 
   def run(source, target)
     @current_words = [source]
-    @all_seen_words = [source]
+    @all_seen_words[source] = nil
 
     explore_current_words until @current_words.empty?
+    #p @all_seen_words
   end
 
   def explore_current_words
@@ -49,12 +50,14 @@ class WordChainer
           next
         else
           new_current_words << adj_word
-          @all_seen_words << adj_word
+          @all_seen_words[adj_word] = current_word
         end
       end
     end
 
-    p new_current_words
+    # new_current_words.each do |current|
+    #   puts "#current word: #{current} came from the parent: #{@all_seen_words[current]}"
+    # end
     @current_words = new_current_words
   end
 
@@ -62,4 +65,4 @@ end
 
 
 werd = WordChainer.new('dictionary.txt')
-werd.run("wonder", "flavor")
+werd.run("market", "flavor")
