@@ -36,9 +36,10 @@ class WordChainer
   def run(source, target)
     @current_words = [source]
     @all_seen_words[source] = nil
+    @source = source
 
     explore_current_words until @current_words.include?(target)
-    (build_path(target))[1..-1]
+    (build_path(target))#[1..-1]
   end
 
   def explore_current_words
@@ -59,9 +60,16 @@ class WordChainer
   end
 
   def build_path(target)
-    return [target] if target == nil
-
+    return [target] if target == @source
     build_path(@all_seen_words[target]) + [target]
+
+    # path =[target]
+    # until target == nil
+    #   path << build_path(@all_seen_words[target])
+    #   target = build_path(@all_seen_words[target])
+    # end
+    #
+    # path
   end
 
 
@@ -69,4 +77,4 @@ end
 
 
 werd = WordChainer.new('dictionary.txt')
-p werd.run("duck", "ruby")
+p werd.run("hello", "silly")
