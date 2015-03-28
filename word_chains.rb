@@ -1,5 +1,4 @@
 require 'set'
-#require 'byebug'
 
 class WordChainer
 
@@ -39,7 +38,7 @@ class WordChainer
     @source = source
 
     explore_current_words until @current_words.include?(target)
-    (build_path(target))#[1..-1]
+    (build_path(target))
   end
 
   def explore_current_words
@@ -62,14 +61,6 @@ class WordChainer
   def build_path(target)
     return [target] if target == @source
     build_path(@all_seen_words[target]) + [target]
-
-    # path =[target]
-    # until target == nil
-    #   path << build_path(@all_seen_words[target])
-    #   target = build_path(@all_seen_words[target])
-    # end
-    #
-    # path
   end
 
 
